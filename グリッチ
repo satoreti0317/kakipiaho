@@ -1,0 +1,35 @@
+-- LocalScript（StarterPlayerScripts に入れる）
+
+local Players = game:GetService("Players")
+local UserInputService = game:GetService("UserInputService")
+local RunService = game:GetService("RunService")
+local LocalPlayer = Players.LocalPlayer
+
+-- Mキー：超ジャンプ＋傾ける
+local function performSuperJump()
+    local char = LocalPlayer.Character
+    if not char then return end
+
+    local humanoid = char:FindFirstChildOfClass("Humanoid")
+    local root = char:FindFirstChild("HumanoidRootPart")
+
+    if humanoid and root then
+        -- ジャンプ
+        humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+        root.Velocity = Vector3.new(0, 500, 0)
+
+        -- 角度を後ろに20度傾ける
+        local lookVector = root.CFrame.LookVector
+        local tiltedCFrame = CFrame.lookAt(root.Position, root.Position + lookVector) * CFrame.Angles(math.rad(20), 0, 0)
+        root.CFrame = tiltedCFrame
+    end
+end
+
+-- 入力受付
+UserInputService.InputBegan:Connect(function(input, gameProcessed)
+    if gameProcessed then return end
+
+    if input.KeyCode == Enum.KeyCode.M then
+        performSuperJump()
+    end
+end)
