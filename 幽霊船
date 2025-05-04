@@ -1,0 +1,31 @@
+local player = game.Players.LocalPlayer
+local userInputService = game:GetService("UserInputService")
+
+-- 各テレポート先の座標（Nは削除）
+local teleportLocations = {
+    G = Vector3.new(909.056, 252.358, 32916.988),  -- 幽霊船
+    H = Vector3.new(-287.7528381347656, 306.17230224609375, 600.8193969726562)  -- 別の場所
+}
+
+-- テレポート関数
+local function teleportToLocation(destination)
+    if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+        player.Character.HumanoidRootPart.CFrame = CFrame.new(destination)
+        print("テレポートしました！")
+    else
+        warn("キャラクターが見つかりません。リスポーン後に再試行してください。")
+    end
+end
+
+-- キー入力の監視（Nキー処理は削除）
+userInputService.InputBegan:Connect(function(input, isProcessed)
+    if isProcessed then return end
+    
+    if input.KeyCode == Enum.KeyCode.G then
+        teleportToLocation(teleportLocations.G)
+    elseif input.KeyCode == Enum.KeyCode.H then
+        teleportToLocation(teleportLocations.H)
+    end
+end)
+
+print("G, Hキーを押すとそれぞれの場所にテレポートします。")
