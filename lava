@@ -1,0 +1,5 @@
+for _, obj in pairs(workspace:GetDescendants()) do
+    if obj:IsA("BasePart") and obj.Name == "Lava" then
+        obj:Destroy()
+    end
+end
