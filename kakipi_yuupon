@@ -15,7 +15,7 @@ local scripts = {
         loadstring(game:HttpGet("https://raw.githubusercontent.com/satoreti0317/kakipiaho/refs/heads/main/lava"))()
     end,
     ["グリッチ"]   = function()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/satoreti0317/kakipiaho/refs/heads/main/%E3%82%B0%E3%83%AA%E3%83%83%E3%83%81"))()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/satoreti0317/anal/refs/heads/main/jump"))()
     end,
     ["グリッチ２"]   = function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/satoreti0317/kakipiaho/refs/heads/main/%E3%82%B0%E3%83%AA%E3%83%83%E3%83%81%EF%BC%92"))()
