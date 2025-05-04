@@ -1,45 +1,28 @@
 local scripts = {
-	["FLY"]        = function()
-		loadstring(game:HttpGet("https://raw.githubusercontent.com/XNEOFF/FlyGuiV3/main/FlyGuiV3.txt"))()
-	end,
-	["幽霊船"]     = function()
-		loadstring(game:HttpGet("https://raw.githubusercontent.com/satoreti0317/anal/refs/heads/main/error"))()
-	end,
-	["バディソ"]   = function()
-		loadstring(game:HttpGet("https://raw.githubusercontent.com/satoreti0317/anal/refs/heads/main/badhiso"))()
-	end,
-	["溶岩"]       = function()
-		loadstring(game:HttpGet("https://raw.githubusercontent.com/satoreti0317/anal/refs/heads/main/ezlava"))()
-	end,
-	["ジャンプ"]   = function()
-		loadstring(game:HttpGet("https://raw.githubusercontent.com/satoreti0317/anal/refs/heads/main/jump"))()
-	end,
-	["シスブロ"]   = function()
-		loadstring(game:HttpGet("https://raw.githubusercontent.com/H20CalibreYT/SystemBroken/main/script"))()
-	end,
-	["サード"]   = function()
-		loadstring(game:HttpGet("https://raw.githubusercontent.com/XNEOFF/FlyGuiV3/main/FlyGuiV3.txt"))()
-		loadstring(game:HttpGet("https://raw.githubusercontent.com/satoreti0317/anal/refs/heads/main/badhiso"))()
-		loadstring(game:HttpGet("https://raw.githubusercontent.com/satoreti0317/anal/refs/heads/main/jump"))()
-		loadstring(game:HttpGet('https://raw.githubusercontent.com/ScpGuest666/Random-Roblox-script/refs/heads/main/Roblox%20Vehicle%20Fly%20Gui%20script'))()
-	end,
-	["セカンド"]   = function()
-		loadstring(game:HttpGet("https://raw.githubusercontent.com/XNEOFF/FlyGuiV3/main/FlyGuiV3.txt"))()
-		loadstring(game:HttpGet("https://raw.githubusercontent.com/H20CalibreYT/SystemBroken/main/script"))()
-		loadstring(game:HttpGet("https://raw.githubusercontent.com/mame1123ccc/mametp/refs/heads/main/ghostrule.lua"))()
-		loadstring(game:HttpGet("https://raw.githubusercontent.com/satoreti0317/anal/refs/heads/main/badhiso"))()
-		loadstring(game:HttpGet("https://raw.githubusercontent.com/satoreti0317/anal/refs/heads/main/ezlava"))()
-	end,
-	["redz"]   = function()
-		local Settings = {
-		    JoinTeam = "Pirates"; -- Pirates/Marines
-		    Translator = true; -- true/false
-		}
-		loadstring(game:HttpGet("https://raw.githubusercontent.com/newredz/BloxFruits/refs/heads/main/Source.luau"))(Settings)
-	end,
-	["船れ妨害"]   = function()
-		loadstring(game:HttpGet("https://raw.githubusercontent.com/satoreti0317/anal/refs/heads/main/ship"))()
-	end,
+    ["FLY"]        = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/XNEOFF/FlyGuiV3/main/FlyGuiV3.txt"))()
+    end,
+    ["幽霊船"]     = function()
+        loadstring(game:HttpGet("https://github.com/satoreti0317/kakipiaho/raw/refs/heads/main/%E5%B9%BD%E9%9C%8A%E8%88%B9"))()
+    end,
+    ["aim"]   = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/satoreti0317/kakipiaho/refs/heads/main/aim"))()
+    end,
+    ["aim2"]   = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/satoreti0317/kakipiaho/refs/heads/main/aim2"))()
+    end,
+    ["溶岩"]       = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/satoreti0317/kakipiaho/refs/heads/main/lava"))()
+    end,
+    ["グリッチ"]   = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/satoreti0317/kakipiaho/refs/heads/main/%E3%82%B0%E3%83%AA%E3%83%83%E3%83%81"))()
+    end,
+    ["グリッチ２"]   = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/satoreti0317/kakipiaho/refs/heads/main/%E3%82%B0%E3%83%AA%E3%83%83%E3%83%81%EF%BC%92"))()
+    end,
+    ["シスブロ"]   = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/H20CalibreYT/SystemBroken/main/script"))()
+    end,
 }
 
 local player = game.Players.LocalPlayer
@@ -51,7 +34,7 @@ gui.ResetOnSpawn = false
 local mainFrame = Instance.new("Frame")
 mainFrame.Size = UDim2.new(0, 230, 0, 300)
 mainFrame.Position = UDim2.new(0.3, 0, 0.3, 0)
-mainFrame.BackgroundColor3 = Color3.fromRGB(90, 70, 255)
+mainFrame.BackgroundColor3 = Color3.fromRGB(10, 10, 10)
 mainFrame.BorderSizePixel = 0
 mainFrame.Name = "MainFrame"
 mainFrame.Active = true
@@ -65,7 +48,7 @@ title.Text = "satoretiScript"
 title.Font = Enum.Font.GothamBold
 title.TextSize = 16
 title.TextColor3 = Color3.new(1, 1, 1)
-title.BackgroundColor3 = Color3.fromRGB(80, 60, 200)
+title.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
 title.BorderSizePixel = 0
 title.Parent = mainFrame
 
@@ -77,11 +60,11 @@ closeBtn.Text = "X"
 closeBtn.Font = Enum.Font.GothamBold
 closeBtn.TextSize = 14
 closeBtn.TextColor3 = Color3.new(1, 1, 1)
-closeBtn.BackgroundColor3 = Color3.fromRGB(255, 70, 70)
+closeBtn.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
 closeBtn.BorderSizePixel = 0
 closeBtn.Parent = mainFrame
 closeBtn.MouseButton1Click:Connect(function()
-	gui:Destroy()
+    gui:Destroy()
 end)
 
 -- 折りたたみボタン
@@ -92,7 +75,7 @@ minBtn.Text = "-"
 minBtn.Font = Enum.Font.GothamBold
 minBtn.TextSize = 18
 minBtn.TextColor3 = Color3.new(1, 1, 1)
-minBtn.BackgroundColor3 = Color3.fromRGB(255, 200, 50)
+minBtn.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
 minBtn.BorderSizePixel = 0
 minBtn.Parent = mainFrame
 
@@ -110,35 +93,33 @@ local layout = Instance.new("UIListLayout", scroll)
 layout.Padding = UDim.new(0, 8)
 layout.SortOrder = Enum.SortOrder.LayoutOrder
 layout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
-	scroll.CanvasSize = UDim2.new(0, 0, 0, layout.AbsoluteContentSize.Y + 10)
+    scroll.CanvasSize = UDim2.new(0, 0, 0, layout.AbsoluteContentSize.Y + 10)
 end)
 
 -- 折りたたみ動作
 local isMinimized = false
 minBtn.MouseButton1Click:Connect(function()
-	isMinimized = not isMinimized
-	scroll.Visible = not isMinimized
-	minBtn.Text = isMinimized and "+" or "-"
-	
-	-- 折りたたみ状態に応じてCanvasSizeを調整
-	if isMinimized then
-		scroll.CanvasSize = UDim2.new(0, 0, 0, 0)  -- 非表示時
-	else
-		scroll.CanvasSize = UDim2.new(0, 0, 0, layout.AbsoluteContentSize.Y + 10)  -- 表示時
-	end
+    isMinimized = not isMinimized
+    scroll.Visible = not isMinimized
+    minBtn.Text = isMinimized and "+" or "-"
+    if isMinimized then
+        scroll.CanvasSize = UDim2.new(0, 0, 0, 0)
+    else
+        scroll.CanvasSize = UDim2.new(0, 0, 0, layout.AbsoluteContentSize.Y + 10)
+    end
 end)
 
 -- 各ボタンの生成
 for name, func in pairs(scripts) do
-	local btn = Instance.new("TextButton")
-	btn.Size = UDim2.new(0.9, 0, 0, 40)
-	btn.Text = name
-	btn.Font = Enum.Font.GothamBold
-	btn.TextScaled = true
-	btn.TextColor3 = Color3.new(1,1,1)
-	btn.BackgroundColor3 = Color3.fromRGB(math.random(100,255), math.random(100,255), math.random(100,255))
-	btn.BorderSizePixel = 0
-	btn.Parent = scroll
+    local btn = Instance.new("TextButton")
+    btn.Size = UDim2.new(0.9, 0, 0, 40)
+    btn.Text = name
+    btn.Font = Enum.Font.GothamBold
+    btn.TextScaled = true
+    btn.TextColor3 = Color3.new(1, 1, 1)
+    btn.BackgroundColor3 = Color3.fromRGB(10, 10, 10)
+    btn.BorderSizePixel = 0
+    btn.Parent = scroll
 
-	btn.MouseButton1Click:Connect(func)
+    btn.MouseButton1Click:Connect(func)
 end
