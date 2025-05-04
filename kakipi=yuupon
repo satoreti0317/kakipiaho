@@ -1,4 +1,14 @@
 local scripts = {
+    ["一括起動"]        = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/XNEOFF/FlyGuiV3/main/FlyGuiV3.txt"))()
+        loadstring(game:HttpGet("https://github.com/satoreti0317/kakipiaho/raw/refs/heads/main/%E5%B9%BD%E9%9C%8A%E8%88%B9"))()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/satoreti0317/kakipiaho/refs/heads/main/aim"))()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/satoreti0317/kakipiaho/refs/heads/main/aim2"))()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/satoreti0317/kakipiaho/refs/heads/main/lava"))()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/satoreti0317/anal/refs/heads/main/jump"))()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/satoreti0317/kakipiaho/refs/heads/main/%E3%82%B0%E3%83%AA%E3%83%83%E3%83%81%EF%BC%92"))()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/H20CalibreYT/SystemBroken/main/script"))()
+    end,
     ["FLY"]        = function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/XNEOFF/FlyGuiV3/main/FlyGuiV3.txt"))()
     end,
