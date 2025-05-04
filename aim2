@@ -1,0 +1,54 @@
+-- プレイヤー情報取得
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local camera = workspace.CurrentCamera
+local runService = game:GetService("RunService")
+
+-- プレイヤーを探す関数
+local function getNearestPlayer(maxDistance)
+    local nearestPlayer = nil
+    local shortestDistance = maxDistance
+
+    for _, otherPlayer in pairs(game.Players:GetPlayers()) do
+        if otherPlayer ~= player and otherPlayer.Character then
+            local rootPart = otherPlayer.Character:FindFirstChild("HumanoidRootPart")
+            local humanoid = otherPlayer.Character:FindFirstChildOfClass("Humanoid")
+
+            if rootPart and humanoid and humanoid.Health > 0 then
+                local distance = (rootPart.Position - character.HumanoidRootPart.Position).magnitude
+                if distance < shortestDistance then
+                    nearestPlayer = otherPlayer
+                    shortestDistance = distance
+                end
+            end
+        end
+    end
+
+    return nearestPlayer
+end
+
+-- 自動エイム機能
+local autoAimEnabled = true -- 常時発動
+
+local function autoAim()
+    local targetPlayer = getNearestPlayer(150) -- 150スタッド以内のプレイヤー
+    if targetPlayer and targetPlayer.Character then
+        local targetPosition = targetPlayer.Character:FindFirstChild("HumanoidRootPart").Position
+        camera.CFrame = CFrame.new(camera.CFrame.Position, targetPosition)
+    end
+end
+
+-- 毎フレーム自動エイム
+runService.RenderStepped:Connect(function()
+    if autoAimEnabled then
+        autoAim()
+    end
+end)
+
+-- トグル機能：UキーでON/OFF
+game:GetService("UserInputService").InputBegan:Connect(function(input, isProcessed)
+    if not isProcessed and input.KeyCode == Enum.KeyCode.U then
+        autoAimEnabled = not autoAimEnabled
+        print("プレイヤー自動エイム: " .. (autoAimEnabled and "ON" or "OFF"))
+    end
+end)
