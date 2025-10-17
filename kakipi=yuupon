@@ -1,5 +1,6 @@
 local scripts = {
     ["一括起動"]        = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/satoreti0317/anal/refs/heads/main/保安官チート🤓"))()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/XNEOFF/FlyGuiV3/main/FlyGuiV3.txt"))()
         loadstring(game:HttpGet("https://github.com/satoreti0317/kakipiaho/raw/refs/heads/main/%E5%B9%BD%E9%9C%8A%E8%88%B9"))()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/satoreti0317/kakipiaho/refs/heads/main/aim"))()
