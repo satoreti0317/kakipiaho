@@ -1,5 +1,4 @@
 return {
-    9037599596, -- UserId1
-    87654321, -- UserId2
-    11223344, -- UserId3
+    Keys = { "satoreti8033", "hogehoge" },
+    UserIds = { 9037599596, 87654321 }
 }
