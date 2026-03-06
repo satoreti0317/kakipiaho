@@ -1,0 +1,27 @@
+{
+    "masterKeys": ["MASTER123", "MASTER456"],
+
+    "users": {
+        "AKACHAN": [
+            {
+                "key": "akachan123",
+                "allowedIds": [11111111, 22222222]
+            },
+            {
+                "key": "akachan456",
+                "allowedIds": [33333333]
+            }
+        ],
+        "SATOURETI": [
+            {
+                "key": "satoreti8033",
+                "allowedIds": [44444444, 55555555]
+            }
+        ]
+    },
+
+    "userMasterKeys": {
+        "AKACHAN": ["AKAMASTER1"],
+        "SATOURETI": ["SATOMASTER1", "SATOMASTER2"]
+    }
+}
