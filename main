@@ -1,0 +1,408 @@
+-- ==========================================
+-- PVP INVIS + FINAL Z (Camera Fix)
+-- HP AUTO INVIS
+-- ==========================================
+
+repeat task.wait() until game.Players.LocalPlayer
+
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local UIS = game:GetService("UserInputService")
+
+local player = Players.LocalPlayer
+
+--==============================
+-- 設定
+--==============================
+
+local pvpEnabled = false
+local settings = {FinalZ = false}
+
+local FakeCharacter = nil
+
+local char
+local root
+local hum
+
+-- FinalZ
+local HIDE_Y = -199996.48
+local IsIsolating = false
+local lastHealths = {}
+local sZAttackActive = false
+
+--==============================
+-- キャラ取得
+--==============================
+
+local function setup()
+
+	char = player.Character or player.CharacterAdded:Wait()
+	root = char:WaitForChild("HumanoidRootPart")
+	hum = char:WaitForChild("Humanoid")
+
+	hum.Died:Connect(function()
+		FinalZ_Reset()
+	end)
+
+end
+
+setup()
+
+--==============================
+-- FakeCharacter
+--==============================
+
+local function createFake()
+
+	if FakeCharacter then
+		FakeCharacter:Destroy()
+	end
+
+	char.Archivable = true
+	FakeCharacter = char:Clone()
+	FakeCharacter.Parent = workspace
+
+	for _,v in pairs(FakeCharacter:GetDescendants()) do
+		if v:IsA("BasePart") then
+			v.Transparency = 1
+			v.CanCollide = false
+		elseif v:IsA("Decal") then
+			v.Transparency = 1
+		end
+	end
+
+	FakeCharacter.HumanoidRootPart.CFrame = root.CFrame
+
+	workspace.CurrentCamera.CameraType = Enum.CameraType.Custom
+	workspace.CurrentCamera.CameraSubject = FakeCharacter.Humanoid
+
+end
+
+--==============================
+-- PVP
+--==============================
+
+local function setPVP(state)
+
+	pvpEnabled = state
+
+	if state then
+		createFake()
+	else
+
+		if FakeCharacter then
+			FakeCharacter:Destroy()
+			FakeCharacter = nil
+		end
+
+		if hum then
+			workspace.CurrentCamera.CameraType = Enum.CameraType.Custom
+			workspace.CurrentCamera.CameraSubject = hum
+		end
+
+	end
+
+end
+
+--==============================
+-- FINAL Z RESET
+--==============================
+
+function FinalZ_Reset()
+
+	IsIsolating = false
+
+	if FakeCharacter then
+		FakeCharacter:Destroy()
+		FakeCharacter = nil
+	end
+
+	if hum then
+		workspace.CurrentCamera.CameraType = Enum.CameraType.Custom
+		workspace.CurrentCamera.CameraSubject = hum
+	end
+
+end
+
+--==============================
+-- FINAL Z CLONE
+--==============================
+
+local function StartCloneTP(targetPos)
+
+	if IsIsolating or not settings.FinalZ then return end
+
+	IsIsolating = true
+
+	local hrp = root
+	if not hrp then return end
+
+	char.Archivable = true
+
+	local clone = char:Clone()
+	clone.Parent = workspace
+
+	for _,v in ipairs(clone:GetDescendants()) do
+		if v:IsA("BasePart") then
+			v.CanCollide = false
+		end
+	end
+
+	clone.HumanoidRootPart.CFrame = CFrame.new(targetPos + Vector3.new(0,3,0))
+
+	workspace.CurrentCamera.CameraType = Enum.CameraType.Custom
+	workspace.CurrentCamera.CameraSubject = clone.Humanoid
+
+	task.spawn(function()
+
+		local startTime = tick()
+
+		while IsIsolating and settings.FinalZ do
+
+			if tick() - startTime > 1.5 then break end
+			if hum.Health <= 0 then break end
+
+			hrp.CFrame = CFrame.new(hrp.Position.X,HIDE_Y,hrp.Position.Z)
+			hrp.AssemblyLinearVelocity = Vector3.zero
+
+			RunService.Heartbeat:Wait()
+
+		end
+
+		clone:Destroy()
+
+		FinalZ_Reset()
+
+	end)
+
+end
+
+--==============================
+-- FINAL Z SETUP (あなたのコード)
+--==============================
+
+local function SetupFinalZ(char)
+
+	local hum = char:WaitForChild("Humanoid")
+
+	char.ChildAdded:Connect(function(child)
+
+		if child.Name == "TridentGrabZ" and settings.FinalZ then
+
+			task.wait()
+
+			local pos = nil
+
+			if child:IsA("ObjectValue") and child.Value then
+				if child.Value:IsA("Model") and child.Value:FindFirstChild("HumanoidRootPart") then
+					pos = child.Value.HumanoidRootPart.Position
+				end
+			elseif child:IsA("Vector3Value") then
+				pos = child.Value
+			end
+
+			if pos then StartCloneTP(pos) end
+
+		end
+
+	end)
+
+	hum.AnimationPlayed:Connect(function(animTrack)
+
+		if animTrack.Name == "Saddi_Z_Attack" then
+			sZAttackActive = true
+			task.delay(1,function() sZAttackActive = false end)
+		end
+
+	end)
+
+	RunService.Heartbeat:Connect(function()
+
+		if not sZAttackActive or not settings.FinalZ then return end
+
+		local myRoot = char:FindFirstChild("HumanoidRootPart")
+		if not myRoot then return end
+
+		for _,p in ipairs(game.Players:GetPlayers()) do
+
+			if p ~= player and p.Character then
+
+				local eHum = p.Character:FindFirstChildOfClass("Humanoid")
+				local eRoot = p.Character:FindFirstChild("HumanoidRootPart")
+
+				if eHum and eRoot and eHum.Health > 0 then
+
+					if lastHealths[p] and eHum.Health < lastHealths[p] then
+
+						if (eRoot.Position - myRoot.Position).Magnitude < 120 then
+							sZAttackActive = false
+							StartCloneTP(eRoot.Position)
+						end
+
+					end
+
+					lastHealths[p] = eHum.Health
+
+				end
+
+			end
+
+		end
+
+	end)
+
+end
+
+--==============================
+-- GUI
+--==============================
+
+local gui = Instance.new("ScreenGui")
+gui.ResetOnSpawn = false
+gui.Parent = player.PlayerGui
+
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0,200,0,140)
+frame.Position = UDim2.new(0.05,0,0.4,0)
+frame.BackgroundTransparency = 0.3
+frame.BackgroundColor3 = Color3.fromRGB(30,30,30)
+frame.Parent = gui
+Instance.new("UICorner",frame)
+
+local title = Instance.new("TextLabel")
+title.Size = UDim2.new(1,0,0,30)
+title.BackgroundTransparency = 1
+title.Text = "PVP MENU"
+title.TextColor3 = Color3.new(1,1,1)
+title.Parent = frame
+
+local pvpBtn = Instance.new("TextButton")
+pvpBtn.Size = UDim2.new(1,-20,0,35)
+pvpBtn.Position = UDim2.new(0,10,0,40)
+pvpBtn.Text = "PVP INVIS : OFF (H)"
+pvpBtn.BackgroundColor3 = Color3.fromRGB(170,0,0)
+pvpBtn.Parent = frame
+Instance.new("UICorner",pvpBtn)
+
+local zBtn = Instance.new("TextButton")
+zBtn.Size = UDim2.new(1,-20,0,35)
+zBtn.Position = UDim2.new(0,10,0,80)
+zBtn.Text = "FINAL Z : OFF"
+zBtn.BackgroundColor3 = Color3.fromRGB(170,0,0)
+zBtn.Parent = frame
+Instance.new("UICorner",zBtn)
+
+--==============================
+-- PVPボタン
+--==============================
+
+local function togglePVP()
+
+	pvpEnabled = not pvpEnabled
+	setPVP(pvpEnabled)
+
+	if pvpEnabled then
+		pvpBtn.Text = "PVP INVIS : ON (H)"
+		pvpBtn.BackgroundColor3 = Color3.fromRGB(0,170,0)
+	else
+		pvpBtn.Text = "PVP INVIS : OFF (H)"
+		pvpBtn.BackgroundColor3 = Color3.fromRGB(170,0,0)
+	end
+
+end
+
+pvpBtn.MouseButton1Click:Connect(togglePVP)
+
+UIS.InputBegan:Connect(function(input,gp)
+
+	if gp then return end
+
+	if input.KeyCode == Enum.KeyCode.H then
+		togglePVP()
+	end
+
+end)
+
+zBtn.MouseButton1Click:Connect(function()
+
+	settings.FinalZ = not settings.FinalZ
+
+	if settings.FinalZ then
+		zBtn.Text = "FINAL Z : ON"
+		zBtn.BackgroundColor3 = Color3.fromRGB(0,170,0)
+	else
+		zBtn.Text = "FINAL Z : OFF"
+		zBtn.BackgroundColor3 = Color3.fromRGB(170,0,0)
+		FinalZ_Reset()
+	end
+
+end)
+
+--==============================
+-- PVP DESYNC
+--==============================
+
+RunService.Heartbeat:Connect(function()
+
+	if pvpEnabled and root then
+
+		local old = root.CFrame
+
+		root.CFrame = old * CFrame.new(0,-200000,0)
+
+		RunService.RenderStepped:Wait()
+
+		root.CFrame = old
+
+		if FakeCharacter and FakeCharacter:FindFirstChild("HumanoidRootPart") then
+			FakeCharacter.HumanoidRootPart.CFrame = old
+		end
+
+	end
+
+end)
+
+--==============================
+-- HP AUTO INVIS
+--==============================
+
+RunService.Heartbeat:Connect(function()
+
+	if player.Character and not pvpEnabled then
+
+		local h = player.Character:FindFirstChildOfClass("Humanoid")
+
+		if h and h.Health <= 3500 and h.Health > 0 then
+			togglePVP()
+		end
+
+	end
+
+end)
+
+--==============================
+-- リスポーン
+--==============================
+
+player.CharacterAdded:Connect(function()
+
+	pvpEnabled = false
+	settings.FinalZ = false
+
+	if FakeCharacter then
+		FakeCharacter:Destroy()
+		FakeCharacter = nil
+	end
+
+	task.wait()
+
+	setup()
+
+	workspace.CurrentCamera.CameraType = Enum.CameraType.Custom
+	workspace.CurrentCamera.CameraSubject = hum
+
+	SetupFinalZ(player.Character)
+
+end)
+
+SetupFinalZ(player.Character)
