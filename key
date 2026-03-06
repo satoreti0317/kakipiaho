@@ -1,4 +1,4 @@
 return {
     Keys = { "satoreti8033", "hogehoge" },
-    UserIds = { 9037599596, 87654321 }
+    UserIds = { 9037599596 } -- あなたのUserId
 }
